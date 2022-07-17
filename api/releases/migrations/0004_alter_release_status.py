@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='release',
             name='status',
-            field=models.CharField(default=releases.constant.ReleaseStatus['PENDING'], max_length=10),
+            field=models.CharField(
+                default=releases.constant.ReleaseStatus['PLANNED'], max_length=10),
         ),
     ]

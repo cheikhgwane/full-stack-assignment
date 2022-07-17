@@ -12,6 +12,11 @@ STEPS = [
 
 
 class ReleaseStatus(Enum):
-    PENDING = 'PENDING'
+    PLANNED = 'PLANNED'
     ON_GOING = 'ON_GOING'
     DONE = 'DONE'
+
+
+class StepStatus(Enum):
+    OFF = 'OFF'
+    ON = 'ON'
