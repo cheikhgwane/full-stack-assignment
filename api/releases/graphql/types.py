@@ -10,6 +10,6 @@ class ReleaseType(DjangoObjectType):
 
 
 class ReleaseInput(graphene.InputObjectType):
-    id = graphene.ID()
-    name = graphene.String()
+    name = graphene.String(required=True)
+    date = graphene.Date(required=True)
     info = graphene.String()
