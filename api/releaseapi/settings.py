@@ -10,10 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
-
-from dotenv import load_dotenv
 from os import getenv
+from dotenv import load_dotenv
+from pathlib import Path
+import django
+from django.utils.encoding import force_str
+django.utils.encoding.force_text = force_str
+
 
 load_dotenv()
 
@@ -36,8 +39,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'graphene_django',
     'releases.apps.ReleasesConfig',
     'django.contrib.contenttypes',
+    'django.contrib.staticfiles',
     'django.contrib.sessions',
     'django.contrib.messages',
 ]
@@ -59,7 +64,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -78,29 +82,14 @@ DATABASES = {
         'NAME': getenv('DATABASE_NAME'),
         'USER':  getenv('DATABASE_USER'),
         'PASSWORD':  getenv('DATABASE_PASSWORD'),
-        'HOST':  getenv('DATABASE_HOST'),   # Or an IP Address that your DB is hosted on
+        'HOST':  getenv('DATABASE_HOST'),
         'PORT':  getenv('DATABASE_PORT'),
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+GRAPHENE = {
+    "SCHEMA": "releases.schema.schema"
+}
 
 
 # Internationalization
