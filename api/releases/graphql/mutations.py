@@ -48,6 +48,24 @@ class UpdateRelease(graphene.Mutation):
             return GraphQLError("An error occured while trying to update release with id {}".format(release.id))
 
 
+class DeleteRelease(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+
+    release = graphene.Field(ReleaseType)
+
+    @staticmethod
+    def mutate(root, info, id):
+        try:
+            release = Release.objects.get(pk=id)
+            release.delete()
+            return None
+        except:
+            raise GraphQLError(
+                "Release with id {} doesn't exist".format(id))
+
+
 class Mutation(graphene.ObjectType):
     create_release = CreateRelease.Field()
     update_release = UpdateRelease.Field()
+    delete_release = DeleteRelease.Field()
