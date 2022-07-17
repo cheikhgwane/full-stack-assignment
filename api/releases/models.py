@@ -8,16 +8,15 @@ class Step:
         self.name = name
         self.state = state
 
-    def update_state(self, state):
-        self.state = state
-
 
 class Release(models.Model):
 
-    STEPS_CONST = json.dumps([Step(name).__dict__ for name in STEPS])
+    def init_step():
+        return [Step(name).__dict__ for name in STEPS]
 
     name = models.CharField(max_length=50)
     date = models.DateField()
-    status = models.CharField(max_length=10, default=ReleaseStatus.PENDING)
-    info = models.TextField()
-    steps = models.TextField(default=STEPS_CONST)
+    status = models.CharField(
+        max_length=10, default=ReleaseStatus.PLANNED.name)
+    info = models.TextField(null=True)
+    steps = models.JSONField(default=init_step)
