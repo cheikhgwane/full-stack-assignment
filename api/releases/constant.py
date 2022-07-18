@@ -13,7 +13,7 @@ STEPS = [
 
 class ReleaseStatus(Enum):
     PLANNED = 'PLANNED'
-    ON_GOING = 'ON_GOING'
+    ONGOING = 'ONGOING'
     DONE = 'DONE'
 
 
