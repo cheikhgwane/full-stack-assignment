@@ -34,7 +34,7 @@ class UpdateRelease(graphene.Mutation):
                                    StepStatus.ON.name, release.steps))
             status = ReleaseStatus.PLANNED.name
             if len(filtered) >= 1:
-                status = ReleaseStatus.ON_GOING.name
+                status = ReleaseStatus.ONGOING.name
             elif (len(filtered) == len(STEPS)):
                 status = ReleaseStatus.DONE.name
 
