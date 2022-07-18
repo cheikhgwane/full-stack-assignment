@@ -1,0 +1,29 @@
+.actionButton {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.table_header {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px #c3cfd9 solid;
+  background-color: #f7f9fa;
+}
+
+.table_header p {
+  color: #6558f5;
+}
+td,
+th {
+  border: 1px solid #c3cfd9;
+  text-align: left;
+  padding: 8px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
