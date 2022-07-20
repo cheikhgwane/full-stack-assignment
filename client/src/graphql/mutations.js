@@ -24,3 +24,13 @@ export const UPDATE_RELEASE = gql`
     }
   }
 `;
+
+export const DELETE_RELEASE = gql`
+  mutation deleteRelease($id: ID!) {
+    deleteRelease(id: $id) {
+      release {
+        id
+      }
+    }
+  }
+`;
