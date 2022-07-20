@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_RELEASES } from "../graphql/queries";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ReactComponent as AddIcon } from "../assets/add_icon.svg";
 import ReleaseList from "../components/Release/List";
 import Header from "../components/Header";
@@ -21,20 +21,21 @@ const NewReleaseButton = () => (
 );
 
 export default function ReleaseListContainer() {
-  const history = useNavigate();
   const [releaseList, setReleaseList] = useState([]);
   const [deleteRelease] = useMutation(DELETE_RELEASE);
   const { loading, error, data } = useQuery(GET_RELEASES);
 
   const onDelete = (id) => {
-    deleteRelease({ variables: { id: id } })
-      .then((res) => {
-        alert(`Release ${id} successfully deleted`);
-        window.location.reload();
-      })
-      .catch((err) => {
-        alert("An error occured while trying to delete release" + error.message);
-      });
+    if (window.confirm(`DO you really want to delete release ${id} ?`) == true) {
+      deleteRelease({ variables: { id: id } })
+        .then((res) => {
+          alert(`Release ${id} successfully deleted`);
+          window.location.reload();
+        })
+        .catch((err) => {
+          alert("An error occured while trying to delete release" + error.message);
+        });
+    }
   };
 
   useEffect(() => {
