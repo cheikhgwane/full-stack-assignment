@@ -1,15 +1,41 @@
 import React, { useState } from "react";
 import { ReactComponent as CheckIcon } from "../../../assets/checkmark_icon.svg";
+import { ThreeDots } from "react-loader-spinner";
+import { CREATE_RELEASE } from "../../../graphql/mutations";
+import { useMutation } from "@apollo/client";
 
 export default function ReleaseForm({ release, onSave }) {
-  const [state, setState] = useState();
+  const [state, setState] = useState({
+    name: null,
+    date: null,
+    loading: false,
+  });
+
+  const [AddRelease, { data, loading, error }] = useMutation(CREATE_RELEASE);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setState((state) => ({ ...state, [name]: value }));
   };
 
-  return (
+  const handleSave = (event) => {
+    const { loading, ...formValues } = state;
+    setState((state) => ({ ...state, loading: true }));
+    AddRelease({ variables: { release: formValues } }).then((res) => {
+      onSave(res);
+    });
+  };
+
+  const displayError = (message) => {
+    window.alert(message);
+    window.location.reload();
+  };
+
+  if (error) return displayError(error.message);
+
+  return loading ? (
+    <ThreeDots className="loader" color="#337ab7" height={60} width={60} />
+  ) : (
     <form>
       <div className="form_group">
         <div className="form_item">
@@ -17,6 +43,7 @@ export default function ReleaseForm({ release, onSave }) {
           <input
             name="name"
             id="name"
+            required
             placeholder="Release name"
             type="text"
             onChange={handleChange}
@@ -29,7 +56,8 @@ export default function ReleaseForm({ release, onSave }) {
             name="date"
             onChange={handleChange}
             id="date"
-            type="text"
+            min={new Date().toISOString().split("T")[0]}
+            type="date"
             defaultValue={release && release.date}
           />
         </div>
@@ -49,7 +77,11 @@ export default function ReleaseForm({ release, onSave }) {
           />
         </div>
         <div className="submit">
-          <button className="blue_button icon_button">
+          <button
+            disabled={!state.name || !state.date}
+            className="blue_button icon_button"
+            onClick={handleSave}
+          >
             Save
             <span style={{ marginLeft: 5 }}>
               <CheckIcon />
