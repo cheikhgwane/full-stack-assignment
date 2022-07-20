@@ -20,7 +20,7 @@ export default function ReleaseForm({ release, update, onSave, loading }) {
   const handleChange = ({ target }) => {
     const { name, value, type, checked } = target;
     if (type === "checkbox") {
-      let steps = [...release.steps];
+      let steps = [...state.steps];
       const step = { ...steps[value], state: checked ? "ON" : "OFF" };
       steps[value] = step;
       return setState({ ...state, steps: steps });
