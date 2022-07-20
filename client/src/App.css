@@ -108,3 +108,15 @@ textarea {
 .caption {
   font-size: 10px;
 }
+
+.step_container {
+  margin: 20px 0px 20px 0px;
+}
+.step {
+  align-items: center;
+  display: flex;
+}
+
+.table_button {
+  align-self: center;
+}
