@@ -120,3 +120,15 @@ textarea {
 .table_button {
   align-self: center;
 }
+
+.table_header > div {
+  display: flex;
+}
+
+span {
+  align-self: center;
+}
+
+a {
+  text-decoration: #6558f5;
+}
