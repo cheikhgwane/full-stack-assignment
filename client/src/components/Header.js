@@ -5,9 +5,11 @@ export default function Header({ text, render }) {
   return (
     <div className="table_header">
       <Link to="/">
-        <p style={{ marginTop: "10" }}> All Releases {text && ">"}</p>
+        <p style={{ marginTop: "10" }}>
+          {" "}
+          All Releases <span style={{ textDecoration: "None" }}>{text && ">" + text}</span>
+        </p>
       </Link>
-      <p>{text}</p>
       {render}
     </div>
   );
