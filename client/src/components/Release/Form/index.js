@@ -1,41 +1,28 @@
 import React, { useState } from "react";
 import { ReactComponent as CheckIcon } from "../../../assets/checkmark_icon.svg";
-import { ThreeDots } from "react-loader-spinner";
-import { CREATE_RELEASE } from "../../../graphql/mutations";
-import { useMutation } from "@apollo/client";
 
-export default function ReleaseForm({ release, onSave }) {
+export default function ReleaseForm({ release, onSave, loading }) {
   const [state, setState] = useState({
     name: null,
     date: null,
-    loading: false,
+    loading: loading,
   });
 
-  const [AddRelease, { data, loading, error }] = useMutation(CREATE_RELEASE);
-
   const handleChange = ({ target }) => {
-    const { name, value } = target;
+    const { name, value, type } = target;
+    if (type === "checkbox") {
+    }
     setState((state) => ({ ...state, [name]: value }));
   };
 
   const handleSave = (event) => {
-    const { loading, ...formValues } = state;
+    event.preventDefault();
     setState((state) => ({ ...state, loading: true }));
-    AddRelease({ variables: { release: formValues } }).then((res) => {
-      onSave(res);
-    });
+    const { loading, ...formValues } = state;
+    onSave(formValues);
   };
 
-  const displayError = (message) => {
-    window.alert(message);
-    window.location.reload();
-  };
-
-  if (error) return displayError(error.message);
-
-  return loading ? (
-    <ThreeDots className="loader" color="#337ab7" height={60} width={60} />
-  ) : (
+  return (
     <form>
       <div className="form_group">
         <div className="form_item">
@@ -62,7 +49,19 @@ export default function ReleaseForm({ release, onSave }) {
           />
         </div>
       </div>
-      <div>{release ? release.steps.map((step, index) => <p></p>) : ""}</div>
+      <div>
+        {release
+          ? release.steps.map((step, index) => (
+              <input
+                key={index}
+                type="checkbox"
+                checked={step.state.toLowerCase() === "on"}
+                name={step.name}
+                onChecked={handleChange}
+              />
+            ))
+          : ""}
+      </div>
       <div className="form_footer">
         <div>
           <label htmlFor="name"> Additional remarks / tasks</label>
