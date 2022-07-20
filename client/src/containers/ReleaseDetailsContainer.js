@@ -46,15 +46,17 @@ export default function ReleaseDetailsContainer() {
   };
 
   const onDelete = (id) => {
-    setDisplayLoader(true);
-    deleteRelease({ variables: { id: id } })
-      .then((res) => {
-        alert(`Release ${id} successfully deleted`);
-        history("/");
-      })
-      .catch((err) => {
-        alert("An error occured while trying to delete release" + error.message);
-      });
+    if (window.confirm(`DO you really want to delete release ${id} ?`) == true) {
+      setDisplayLoader(true);
+      deleteRelease({ variables: { id: id } })
+        .then((res) => {
+          alert(`Release ${id} successfully deleted`);
+          window.location.href = "/";
+        })
+        .catch((err) => {
+          alert("An error occured while trying to delete release" + error.message);
+        });
+    }
   };
 
   const DeleteButton = ({ id }) => (
