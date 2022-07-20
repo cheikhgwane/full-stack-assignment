@@ -1,11 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
-import ReleaseListView from "./views/ReleaseListView";
+
+import ReleaseApp from "./views";
 
 function App() {
   return (
     <div className="App">
-      <ReleaseListView />
+      <ReleaseApp />
     </div>
   );
 }

@@ -1,3 +1,10 @@
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
+
 button {
   border: 0px;
   cursor: pointer;
@@ -26,9 +33,70 @@ button {
 .home_view {
   margin: auto;
   width: 60%;
+  height: 100%;
 }
 
 .home_view_header {
   text-align: center;
   margin-bottom: 10%;
+}
+
+.home_view_content {
+  min-height: 400px;
+}
+
+.release_container {
+  border: 1px #c3cfd9 solid;
+  background-color: #f7f9fa;
+  padding: 20px 20px 15px 20px;
+  height: 100%;
+}
+
+input,
+textarea {
+  border: 1px solid #c5ced6;
+  border-radius: 5px;
+  height: 30px;
+}
+
+input:focus,
+textarea:focus {
+  outline: none !important;
+  border-color: #6558f5;
+  box-shadow: 0 0 2px #6558f5;
+}
+
+.form_group {
+  display: flex;
+  justify-content: space-around;
+  width: fit-content;
+  margin-bottom: 4%;
+}
+
+.form_item {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+label,
+textarea {
+  display: block;
+}
+
+textarea {
+  height: auto;
+}
+
+.form_footer {
+  justify-content: space-between;
+  display: flex;
+}
+
+.submit {
+  align-self: end;
 }
