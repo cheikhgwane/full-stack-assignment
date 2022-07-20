@@ -6,11 +6,10 @@ export default function Header({ text, render }) {
     <div className="table_header">
       <Link to="/">
         <p style={{ marginTop: "10" }}>
-          {" "}
           All Releases <span style={{ textDecoration: "None" }}>{text && ">" + text}</span>
         </p>
       </Link>
-      {render}
+      <div className="table_button">{render}</div>
     </div>
   );
 }

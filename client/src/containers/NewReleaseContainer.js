@@ -12,7 +12,6 @@ export default function NewReleaseContainer() {
   const [AddRelease, { data, loading, error }] = useMutation(CREATE_RELEASE);
 
   const handleSave = (formValues) => {
-    console.log(formValues);
     AddRelease({ variables: { release: formValues } }).then((res) => {
       history("/");
     });

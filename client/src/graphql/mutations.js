@@ -10,3 +10,17 @@ export const CREATE_RELEASE = gql`
     }
   }
 `;
+
+export const UPDATE_RELEASE = gql`
+  mutation updateRelease($release: ReleaseUpdateInput!) {
+    updateRelease(release: $release) {
+      release {
+        id
+        name
+        info
+        date
+        status
+      }
+    }
+  }
+`;

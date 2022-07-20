@@ -30,7 +30,7 @@ export default function ReleaseList({ columns, releases, onViewClick, onDeleteCl
               <div className="actionButton">
                 Delete
                 <button className="transparent_button" onClick={() => onDeleteClick(release.id)}>
-                  <DeleteIcon />
+                  <DeleteIcon fill="black" />
                 </button>
               </div>
             </td>

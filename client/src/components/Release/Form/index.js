@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ReactComponent as CheckIcon } from "../../../assets/checkmark_icon.svg";
 
-export default function ReleaseForm({ release, onSave, loading }) {
+export default function ReleaseForm({ release, update, onSave, loading }) {
   const [state, setState] = useState({
-    name: null,
-    date: null,
+    name: release.name,
+    date: release.date,
+    info: release.info,
+    steps: [],
     loading: loading,
   });
 
+  useEffect(() => {
+    if (update) {
+      const { __typename, ...data } = release;
+      setState((state) => ({ ...state, ...data }));
+    }
+  }, [release]);
+
   const handleChange = ({ target }) => {
-    const { name, value, type } = target;
+    const { name, value, type, checked } = target;
     if (type === "checkbox") {
+      let steps = [...release.steps];
+      const step = { ...steps[value], state: checked ? "ON" : "OFF" };
+      steps[value] = step;
+      return setState({ ...state, steps: steps });
     }
     setState((state) => ({ ...state, [name]: value }));
   };
@@ -34,6 +47,7 @@ export default function ReleaseForm({ release, onSave, loading }) {
             placeholder="Release name"
             type="text"
             onChange={handleChange}
+            disabled={update}
             defaultValue={release && release.name}
           />
         </div>
@@ -45,21 +59,27 @@ export default function ReleaseForm({ release, onSave, loading }) {
             id="date"
             min={new Date().toISOString().split("T")[0]}
             type="date"
+            disabled={update}
             defaultValue={release && release.date}
           />
         </div>
       </div>
-      <div>
-        {release
-          ? release.steps.map((step, index) => (
-              <input
-                key={index}
-                type="checkbox"
-                checked={step.state.toLowerCase() === "on"}
-                name={step.name}
-                onChecked={handleChange}
-              />
-            ))
+      <div className="step_container">
+        {Object.keys(release).length != 0
+          ? release.steps.map((step, index) => {
+              return (
+                <div className="step" key={index}>
+                  <input
+                    type="checkbox"
+                    name="steps"
+                    value={index}
+                    defaultChecked={step.state.toLowerCase() === "on"}
+                    onChange={handleChange}
+                  />
+                  <label style={{ fontWeight: "initial", fontSize: 12 }}>{step.name}</label>
+                </div>
+              );
+            })
           : ""}
       </div>
       <div className="form_footer">
@@ -68,16 +88,16 @@ export default function ReleaseForm({ release, onSave, loading }) {
           <textarea
             rows={10}
             cols={30}
-            name="name"
+            name="info"
             id="name"
             type="text"
             onChange={handleChange}
-            defaultValue={release && release.name}
+            defaultValue={release && release.info}
           />
         </div>
         <div className="submit">
           <button
-            disabled={!state.name || !state.date}
+            disabled={update ? false : !state.name || !state.date || !state.steps}
             className="blue_button icon_button"
             onClick={handleSave}
           >
