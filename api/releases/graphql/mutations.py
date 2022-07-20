@@ -33,7 +33,7 @@ class UpdateRelease(graphene.Mutation):
             filtered = list(filter(lambda step: step.state ==
                                    StepStatus.ON.name, release.steps))
             status = ReleaseStatus.PLANNED.name
-            if len(filtered) in (1, len(STEPS)-1):
+            if len(filtered) in range(1, len(STEPS)-1):
                 status = ReleaseStatus.ONGOING.name
             elif (len(filtered) == len(STEPS)):
                 status = ReleaseStatus.DONE.name
