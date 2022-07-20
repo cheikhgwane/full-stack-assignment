@@ -1,4 +1,5 @@
 import graphene
+from graphql import GraphQLError
 from .types import ReleaseType
 from ..models import Release
 
@@ -11,4 +12,8 @@ class Query(graphene.ObjectType):
         return Release.objects.all()
 
     def resolve_release(root, info, id):
-        return Release.objects.get(pk=id)
+        try:
+            return Release.objects.get(pk=id)
+        except:
+            raise GraphQLError(
+                "Release with id {} doesn't exist".format(id))
