@@ -10,3 +10,16 @@ export const GET_RELEASES = gql`
     }
   }
 `;
+
+export const GET_ONE_RELEASE = gql`
+  query getRelease($id: ID!) {
+    release(id: $id) {
+      id
+      name
+      date
+      status
+      info
+      steps
+    }
+  }
+`;

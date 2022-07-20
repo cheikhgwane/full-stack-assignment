@@ -2,11 +2,14 @@ import React from "react";
 import { ReactComponent as ViewIcon } from "../../../assets/view_icon.svg";
 import { ReactComponent as DeleteIcon } from "../../../assets/delete_icon.svg";
 import "./index.css";
+import { Link } from "react-router-dom";
 
 export default function ReleaseList({ columns, releases, onViewClick, onDeleteClick }) {
   return (
-    <table celled>
-      <thead>{columns && columns.map((column, id) => <th key={id}> {column}</th>)}</thead>
+    <table>
+      <thead>
+        <tr>{columns && columns.map((column, id) => <th key={id}> {column}</th>)}</tr>
+      </thead>
       <tbody>
         {releases.map((release, id) => (
           <tr key={id}>
@@ -16,9 +19,11 @@ export default function ReleaseList({ columns, releases, onViewClick, onDeleteCl
             <td>
               <div className="actionButton">
                 View
-                <button className="transparent_button" onClick={() => onViewClick(release.id)}>
-                  <ViewIcon />
-                </button>
+                <Link to={`/release/${release.id}`}>
+                  <button className="transparent_button">
+                    <ViewIcon />
+                  </button>
+                </Link>
               </div>
             </td>
             <td>
