@@ -12,9 +12,11 @@
   background-color: #f7f9fa;
 }
 
-.table_header p {
+.table_header p,
+span {
   color: #6558f5;
 }
+
 td,
 th {
   border: 1px solid #c3cfd9;

@@ -1,19 +1,16 @@
 import React from "react";
 import Header from "../components/Header";
 import ReleaseForm from "../components/Release/Form";
-import { useNavigate } from "react-router-dom";
 import { CREATE_RELEASE } from "../graphql/mutations";
 import { useMutation } from "@apollo/client";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function NewReleaseContainer() {
-  let history = useNavigate();
-
   const [AddRelease, { data, loading, error }] = useMutation(CREATE_RELEASE);
 
   const handleSave = (formValues) => {
     AddRelease({ variables: { release: formValues } }).then((res) => {
-      history("/");
+      window.location.href = "/";
     });
   };
 

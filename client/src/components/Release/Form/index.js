@@ -3,9 +3,9 @@ import { ReactComponent as CheckIcon } from "../../../assets/checkmark_icon.svg"
 
 export default function ReleaseForm({ release, update, onSave, loading }) {
   const [state, setState] = useState({
-    name: release.name,
-    date: release.date,
-    info: release.info,
+    name: release && release.name,
+    date: release && release.date,
+    info: release && release.info,
     steps: [],
     loading: loading,
   });
@@ -31,6 +31,10 @@ export default function ReleaseForm({ release, update, onSave, loading }) {
   const handleSave = (event) => {
     event.preventDefault();
     setState((state) => ({ ...state, loading: true }));
+    if (!update) {
+      const { name, info, date } = state;
+      return onSave({ name, info, date });
+    }
     const { loading, ...formValues } = state;
     onSave(formValues);
   };
@@ -65,18 +69,21 @@ export default function ReleaseForm({ release, update, onSave, loading }) {
         </div>
       </div>
       <div className="step_container">
-        {Object.keys(release).length != 0
+        {release && Object.keys(release).length != 0
           ? release.steps.map((step, index) => {
               return (
                 <div className="step" key={index}>
                   <input
                     type="checkbox"
                     name="steps"
+                    id={index}
                     value={index}
                     defaultChecked={step.state.toLowerCase() === "on"}
                     onChange={handleChange}
                   />
-                  <label style={{ fontWeight: "initial", fontSize: 12 }}>{step.name}</label>
+                  <label htmlFor={index} style={{ fontWeight: "initial", fontSize: 12 }}>
+                    {step.name}
+                  </label>
                 </div>
               );
             })
