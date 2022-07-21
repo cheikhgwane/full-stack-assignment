@@ -4,10 +4,10 @@ This repo contains the instruction for the completion of the **Full stack develo
 
 This assignment takes the form of a **small realistic project**, to be developed as a little **single-page app**.
 
-It will be used to assess your skill levels, and also your ability to work with modern development tool and 
+It will be used to assess your skill levels, and also your ability to work with modern development tool and
 practices, such as Git/Github, Docker, etc...
 
-**We expect you to dedicate between 3-4 hours of work to this exercise**. It's ok if not everything is perfect or 100% 
+**We expect you to dedicate between 3-4 hours of work to this exercise**. It's ok if not everything is perfect or 100%
 finished, the idea is not to spend a lot of time on this but rather to see what you can build in a few hours.
 
 ## The project: a release checklist
@@ -20,7 +20,7 @@ This application is a **release checklist tool** that could help developers with
 
 You can find the above mock-ups in the `/wireframes` directory of this repository.
 
-The application has only one main model : `Release`. A `Release` is composed of multiple `Step`s and has the 
+The application has only one main model : `Release`. A `Release` is composed of multiple `Step`s and has the
 following properties :
 
 - A name (`text`, mandatory)
@@ -36,15 +36,72 @@ The `status` is not chosen by the end user, it is simply computed from the steps
 - At least one step completed : `ongoing`
 - All steps completed : `done`
 
-For the sake of this example, let's assume that a release is done in 7 to 10 steps. The mock-ups include few 
-example steps but feel free to change them. 
+For the sake of this example, let's assume that a release is done in 7 to 10 steps. The mock-ups include few
+example steps but feel free to change them.
 
-To keep things simple, the steps are the same for every release and don't change over time - you don't need to 
+To keep things simple, the steps are the same for every release and don't change over time - you don't need to
 have a database table to store each step, as long as you store, for each release, which step has been completed.
 
 ## Running the code
 
-*This section should be updated with the required instructions to run your project*.
+_This section should be updated with the required instructions to run your project_.
+
+### With Docker
+
+Open your terminal and enter docker-compose up -d and open you browser at http://127.0.0.1:5000/. That's it!
+
+### Local development
+
+#### Setup API
+
+You'll need to install mysql and the following python packages (run pip install <package_name>):
+
+- django>=4.0.6
+- graphene-django>=2.15.0
+- mysqlclient
+- django-cors-headers
+- python-dotenv
+
+On MySQL create a user, a database and grant him privileges on the database.
+Inside the api folder, create a .env file and put the variables and they corresponding value :
+
+- SECRET_KEY (django generated key)
+- DATABASE_NAME
+- DATABASE_USER
+- DATABASE_PASSWORD
+- DATABASE_HOST
+- ALLOWED_ORIGINS (put the client server url in order to let request coming from it to pass)
+
+cd into api and run :
+
+```bash
+python manage.py migrate
+python manage.py runserver
+docker-compose up
+```
+
+By default the server will be starter at localhost:8000. You can have access to the graphql playground on http://localhost:8000/graphql.
+
+To run the unit tests : _python manage.py test releases_
+
+#### Setup React Client
+
+_Npm or yarn must be installed_
+
+The following steps will get you up and running:
+
+- Open a console client folder and run : npm/yarn install.
+- Create a .env and file add the variable REACT_APP_RELEASE_API_URL (e.g : http://localhost:8000/graphql)
+- Execute npm start.
+
+The last step will open a tab on your browser at http://localhost:3000/ (by default). Use this value and put it on
+the ALLOWED_ORIGINS env variable on the api configs.
+
+The client app has 3 routes :
+
+- / for getting all releases
+- /release/:id display and edit release details
+- /release : to create a new release
 
 ## Assignment tasks
 
@@ -59,7 +116,7 @@ In terms of features :
 
 In terms of technical constraints :
 
-- [ ] The whole codebase should be contained in a single repository available on GitHub, which should be a fork 
+- [ ] The whole codebase should be contained in a single repository available on GitHub, which should be a fork
       of this repository
 - [ ] The end result should be a single-page application
 - [ ] `React` should be used for the frontend, either with `create-react-app` or `nextjs`
