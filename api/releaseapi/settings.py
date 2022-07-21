@@ -56,7 +56,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    getenv('ALLOWED_ORIGINS'),
 ]
 
 ROOT_URLCONF = 'releaseapi.urls'

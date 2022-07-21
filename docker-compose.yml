@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8
+    container_name: db
+    command: "--default-authentication-plugin=mysql_native_password"
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=yvqgXbtJBM
+      - MYSQL_DATABASE=releaseApp
+      - MYSQL_USER=releaseRoot
+      - MYSQL_PASSWORD=RiVbpMKKKC
+
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - 8000:8000
+    environment:
+      - SECRET_KEY="django-insecure-+0dps$$wl$$-#q=fu&)x)67z*c5t389*3ed(n#gdelf64084h!c2"
+      - DATABASE_NAME:releaseApp
+      - DATABASE_USER:releaseRoot
+      - DATABASE_PASSWORD=RiVbpMKKKC
+      - DATABASE_HOST=db
+      - ALLOWED_ORIGINS=http://127.0.0.1:5000
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+
+  client:
+    restart: always
+    container_name: client
+    build: ./client
+    ports:
+      - 5000:5000
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5000
+    command: npm start
+    depends_on:
+      - api
+
+volumes:
+  db_data:
